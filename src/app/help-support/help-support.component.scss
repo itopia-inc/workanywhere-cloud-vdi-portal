@@ -1,0 +1,44 @@
+.margin-left-5 {
+  margin-left: 8px;
+  margin-bottom: 15px;
+}
+.flex-0 {
+  flex: 0 0 0px;
+}
+
+.justify-content-between{
+  justify-content: space-between
+}
+
+:host ::ng-deep .mat-chip-list-stacked .mat-chip-list-wrapper {
+  flex-direction: column;
+  align-items: flex-start;
+  align-content: center;
+}
+:host ::ng-deep .mat-input-element {
+  font: inherit;
+  background: transparent !important;
+  color: currentColor;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  vertical-align: bottom;
+  text-align: inherit;
+}
+.golden-warning-text {
+  color: #cfb306;
+}
+.truncate {
+  overflow-wrap: anywhere;
+}
+:host ::ng-deep .mat-chip-list-stacked .mat-chip-list-wrapper .mat-standard-chip {
+  width: 100%;
+  height: auto;
+}
+.help-wrapper {
+	width: 100%;
+  height: 100%;
+}

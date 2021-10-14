@@ -1,0 +1,62 @@
+<div class="page-wrapper" fxLayout="column" fxLayoutGap="50px">
+  <mat-toolbar class="expanded-toolbar" fxLayout="row" fxLayoutAlign="space-between center">
+    <span *ngIf="!(brandingConfigs?.logoPath && brandingConfigs?.title)">&nbsp;</span>
+    <div fxLayout="row" *ngIf="brandingConfigs?.logoPath && brandingConfigs?.title" fxLayoutAlign="center center">
+      <img [src]="brandingConfigs?.logoPath" alt="logo" class="logo" width="50" />
+      <h1 class="text-white">{{brandingConfigs?.title}}</h1>
+    </div>
+    <span>
+      <button mat-button (click)="getResources()" class="text-white">
+        <mat-icon>autorenew</mat-icon>
+      </button>
+      <button mat-button (click)="toggleSidePanel()" class="text-white" *ngIf="!hideHelpAndSupportButton"
+        [disabled]="isDisabledHelpAndSupportButton">Help and support</button>
+      <button mat-button (click)="showChangePasswordModal()" class="text-white"
+        [disabled]="isDisabledResetPassword">Reset password</button>
+      <button mat-button (click)="signOut()" class="text-white">Sign out</button>
+    </span>
+  </mat-toolbar>
+
+  <div fxLayout="row" class="console" fxLayoutAlign="center">
+
+    <div fxLayout="column" fxLayoutGap="30px">
+      <app-irdp-client (cookieChange)="checkCookie()"></app-irdp-client>
+
+      <div fxLayout="column" fxLayoutGap="20px" *ngIf="resources.length > 0 && !isConfiguringIrdp">
+        <h1 class="text-info"> Cloud Desktops </h1>
+        <div gdColumns="repeat(3, minmax(200px, 250px))" gdGap="20px">
+          <div *ngFor="let resource of resources">
+            <app-resource [resource]="resource" (downloadRdp)="mapAction($event)" (performAction)="mapAction($event)">
+            </app-resource>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="column" fxLayoutGap="20px" *ngIf="appResources.length > 0 && !isConfiguringIrdp" class="m-b-50">
+        <h1 class="text-info"> Applications </h1>
+        <div gdColumns="repeat(3, minmax(200px, 250px))" gdGap="20px">
+          <div *ngFor="let resource of appResources">
+            <app-resource [resource]="resource" [isApp]="true" (downloadRdp)="mapAction($event)"></app-resource>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="resourcesLoaded && (resources.length === 0 && appResources.length === 0) && !isConfiguringIrdp">
+        <h1 class="text-info"> No resources found </h1>
+        <p>You do not appear to be assigned to any Cloud VDI resources. Contact your IT department for assistance.</p>
+      </div>
+      <div *ngIf="!resourcesLoaded && (resources.length === 0 && appResources.length === 0) && !isConfiguringIrdp"
+        fxflex="1 0 100%" style="align-self: center;">
+        <mat-spinner diameter=80></mat-spinner>
+      </div>
+    </div>
+
+    <div fxLayout="column" class="side-panel" fxFlex="25" fxFlex.sm="40" fxFlex.xs="95" fxFlex.md="30"
+      *ngIf="showSidePanel">
+      <app-help-support class="overflow-scroll-y"
+        [isDisabledFromOutside]="(!resourcesLoaded || (resources.length === 0 && appResources.length === 0) || resourceRegions.length === 0 || isConfiguringIrdp)"
+        [resourceRegions]="resourceRegions" [user]=user></app-help-support>
+    </div>
+
+  </div>
+</div>

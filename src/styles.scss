@@ -1,0 +1,176 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$cas-launcher-primary: mat-palette($mat-blue);
+$cas-launcher-accent: mat-palette($mat-blue-gray, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$cas-launcher-warn: mat-palette($mat-red);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$cas-launcher-theme: mat-light-theme((
+  color: (
+    primary: $cas-launcher-primary,
+    accent: $cas-launcher-accent,
+    warn: $cas-launcher-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($cas-launcher-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+#background {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-image: url('/assets/images/wallpaper.jpg');
+  background-size: cover;
+  background-position: center;
+  background-color: white;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.page-wrapper {
+	width: 100%;
+  min-height: 100vh;
+}
+.sublabel {
+  display: block;
+  font-size: 0.9em;
+  color: #a0a0a0;
+}
+.icon-05x {
+  transform: scale(0.5);
+}
+.icon-2x {
+  transform: scale(2);
+}
+
+.icon-3x {
+  transform: scale(3);
+}
+.text-success {
+  color: #5ac146;
+}
+.float-right {
+  float: right;
+}
+.font-22 {
+  font-size: 22px;
+}
+.font-26 {
+  font-size: 26px;
+}
+.p-10 {
+  padding: 10px;
+}
+.p-20 {
+  padding: 20px;
+}
+.p-30 {
+  padding: 30px;
+}
+.p-50 {
+  padding: 50px;
+}
+
+.px-50 {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.py-20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.m-t-10 {
+  margin-top: 10px;
+}
+.m-t-20 {
+  margin-top: 20px !important;
+}
+.m-r-5 {
+  margin-right: 5px;
+}
+.m-r-10 {
+  margin-right: 10px;
+}
+.m-l-10 {
+  margin-left: 10px;
+}
+.m-b-0 {
+  margin-bottom: 0px !important;
+}
+.m-b-10 {
+  margin-bottom: 10px;
+}
+.m-b-30 {
+  margin-bottom: 30px;
+}
+.m-b-50 {
+  margin-bottom: 50px;
+}
+.font-bold {
+  font-weight: bold;
+}
+.text-white {
+  color: #fff;
+}
+.text-danger {
+  color: #FF0000;
+}
+.text-warning {
+  color: #ffd312;
+}
+.text-info {
+  color: #2196f3;
+}
+.text-center {
+  text-align: center;
+}
+
+.text-header {
+  font-weight: bold;
+}
+
+.success-snackbar {
+  background-color: #28a745;
+  color: #fff;
+}
+.error-snackbar {
+  background-color:#bd362f;
+  color: #fff;
+}
+.info-snackbar {
+  background-color: #007bff;
+  color: #fff;
+}
+.warn-snackbar{
+  background-color:rgb(158, 119, 0);
+  color: #fff;
+}

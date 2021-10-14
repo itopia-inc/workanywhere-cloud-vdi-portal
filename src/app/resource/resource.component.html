@@ -1,0 +1,64 @@
+<mat-card>
+  <div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+    <mat-icon class="icon-3x m-t-20" color="primary" aria-hidden="false" aria-label="Cloud Desktops" *ngIf="!isApp" svgIcon="desktop"></mat-icon>
+    <mat-icon class="icon-3x m-t-20" color="primary" aria-hidden="false" aria-label="Apps" *ngIf="isApp" svgIcon="app"></mat-icon>
+    <div id="resourceName" fxFlexOffset="10px" class="font-22 text-center wrap">
+      {{resource.resourceName}}
+    </div>
+    <div fxFlexOffset="10px" fxLayout="row" fxLayoutAlign="space-between" *ngIf="resource.resourceType !== 'PCP' && resource.resourceType !== 'W10DD'" fxFlexFill>
+      <button class="menu-filter-item-button" type="button" [disabled]="isPerformingAction || isUnavailable"
+      [ngClass]="{'bg-success': !notReady && !(isPerformingAction || isUnavailable), 'unavailable':isUnavailable }" mat-stroked-button *ngIf="resource.resourceRegions.length > 1">
+        <strong class="menu-filter-item-title letter" (click)="connectToPreferedRegion()" *ngIf="!isPerformingAction"> {{actionSelected | uppercase}} </strong>
+        <span fxLayout="row" fxLayoutAlign="center center" *ngIf="isPerformingAction">
+          <mat-spinner diameter=20></mat-spinner>
+          <span> {{ actionSelected | uppercase}} </span>
+        </span>
+      </button>
+      <button class="menu-filter-item-button select-icon" *ngIf="!isPerformingAction && resource.resourceRegions.length > 1 && !isUnavailable"
+        [ngClass]="{'action-container': isPerformingAction || isUnavailable, 'unavailable':isUnavailable}"
+      [disabled]="isPerformingAction || isUnavailable" type="button">
+        <mat-icon (click)="select.open()" [ngClass]="{'unavailable':isUnavailable}" *ngIf="!isPerformingAction">keyboard_arrow_down</mat-icon>
+        <mat-select #select class="langSelect" [(ngModel)]="resource.resourceRegions" (selectionChange)="connectToRegion($event)">
+          <mat-option> Choose region: </mat-option>
+          <mat-optgroup *ngFor="let group of statusGroups" [label]="group.name"
+                        [disabled]="group.disabled">
+            <mat-option *ngFor="let region of group.region" [value]="region.regionName">
+              {{region.regionName}}
+              <mat-icon class="checked" *ngIf="selectedRegionName === region.regionName"> check_circle </mat-icon>
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </button>
+      <button mat-stroked-button type="button" [disabled]="isPerformingAction || notReady || isUnavailable" *ngIf="resource.resourceRegions.length === 1"
+      (click)="connectToRegion(resource.resourceRegions[0].regionName)" [ngClass]="{'bg-success': !notReady && !(isPerformingAction || isUnavailable), 'unavailable':isUnavailable}">
+        <span *ngIf="!isPerformingAction"> {{actionSelected | uppercase}} </span>
+        <span fxLayout="row" *ngIf="isPerformingAction">
+          <mat-spinner class="spinner-pos" diameter=20></mat-spinner>
+          <span class="action-single-label"> {{ actionSelected | uppercase}} </span>
+        </span>
+      </button>
+    </div>
+    <div fxFlexOffset="10px" fxLayout="row" fxLayoutAlign="space-between" *ngIf="resource.resourceType === 'PCP' || resource.resourceType === 'W10DD'" fxFlexFill>
+      <button class="menu-filter-item-button" [ngClass]="{'action-container': isPerformingAction || isUnavailable, 'bg-success': !notReady && !(isPerformingAction || isUnavailable), 'unavailable':isUnavailable}"
+       [disabled]="isPerformingAction || isUnavailable" type="button" mat-stroked-button>
+          <strong class="menu-filter-item-title" [ngClass]="{'letter': !isPerformingAction && !isUnavailable}" (click)="setDedicatedAction('powerOn', resource)">
+            <span *ngIf="!isPerformingAction"> {{actionSelected | uppercase}} </span>
+            <span *ngIf="isPerformingAction">
+              <mat-spinner class="spinner-pos" diameter=20 ></mat-spinner>
+              <span class="action-label"> {{ actionSelected | uppercase}} </span>
+            </span>
+
+          </strong>
+        </button>
+        <button class="menu-filter-item-button select-icon" *ngIf="!isPerformingAction && !isUnavailable" [ngClass]="{'action-container': isPerformingAction || isUnavailable, 'unavailable':isUnavailable}"
+        [disabled]="isPerformingAction || isUnavailable" type="button">
+        <mat-icon (click)="actionSelect.open()" [ngClass]="{'unavailable':isUnavailable}">keyboard_arrow_down</mat-icon>
+        <mat-select #actionSelect class="langSelect" (selectionChange)="setDedicatedAction($event.value, resource)">
+          <mat-option value="reboot">  <mat-icon class="text-warning">cached</mat-icon> {{'Reboot'}} </mat-option>
+          <mat-option value="powerOff">  <mat-icon class="text-danger">power_settings_new</mat-icon> {{'Power Off'}} </mat-option>
+        </mat-select>
+       </button>
+    </div>
+  </div>
+</mat-card>
+

@@ -1,0 +1,81 @@
+:host ::ng-deep .mat-card {
+  padding: 12px 0 0 !important;
+}
+
+.console {
+  margin: auto;
+ }
+ .checked {
+   color: #5ac146;
+   transform: scale(0.5);
+   float: right;
+   margin-top: 8px;
+ }
+
+
+ ::ng-deep .langSelect div.mat-select-arrow-wrapper {
+   display: none;
+ }
+
+ ::ng-deep .langSelect.mat-select {
+   display: inline;
+ }
+
+::ng-deep .cdk-overlay-pane {
+  transform: translateX(-15.12rem) translateY(1.37rem) !important;
+}
+ ::ng-deep strong.menu-filter-item-title {
+ font-weight: normal;
+ }
+::ng-deep .mat-select-panel{
+  min-width: 0 !important;
+  width: 250px !important;
+}
+
+ .mat-stroked-button {
+   width: 100%;
+   border-radius: 0px;
+ }
+ .action-label {
+   position: relative;
+   top: -24px;
+   left: 10px;
+ }
+ .action-single-label {
+  position: relative;
+  top: -3px;
+  left: -3px;
+}
+.action-container {
+  height: 40px;
+}
+.spinner-pos {
+  position: relative;
+  top:3px;
+  left: -10px;
+}
+.select-icon {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+  cursor: pointer;
+}
+.bg-success {
+  background-color: #4aac139c;
+}
+.letter {
+  letter-spacing: 3px;
+}
+.wrap{
+  line-height: normal;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+.unavailable {
+  background-color: #767676;
+  border: 2px solid #767676;
+  color: #fafafa !important;
+  letter-spacing: 3px;
+}

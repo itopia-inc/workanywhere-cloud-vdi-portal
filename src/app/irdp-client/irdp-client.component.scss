@@ -1,0 +1,23 @@
+.logo {
+  max-height: 22px;
+  margin-right: 10px;
+}
+.logo-ms {
+  max-height: 32px;
+  margin-right: 10px;
+}
+.download-btn {
+  line-height: unset !important;
+  padding: 16px !important;
+}
+.other-btn {
+  color: rgba(0,0,0,.36);
+}
+.mat-raised-button.mat-button-disabled.mat-button-disabled
+{
+  color: white;
+}
+
+.btn-sublabel {
+  font-size: 0.8em;
+}

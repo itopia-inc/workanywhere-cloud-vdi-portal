@@ -1,0 +1,68 @@
+<div fxLayout="column" fxLayoutGap="50px" fxLayoutAlign="center center" *ngIf="!notSupported">
+  <mat-card fxFlexFill>
+    <div fxLayout="row" fxLayoutAlign="flex-start center" *ngIf="!hasIrdp">
+      <img src="assets/images/only_cloud.png" alt="logo" class="logo"/>
+      <strong class="m-r-10"> Try the itopia Remote Desktop Client</strong>
+      to enable single sign-on support for Cloud VDI.
+      <a mat-button color="primary" type="button" href="javascript:void(0)"
+      (click)="setConfiguringIrdp()"> Get started </a>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="flex-start center" *ngIf="hasIrdp">
+      <img src="assets/images/only_cloud.png" alt="logo" class="logo"/>
+      <strong class="m-r-10"> The itopia Remote Desktop Client</strong> is currently enabled. To use other RDP clients, disable it:
+      <a mat-button color="primary" type="button" href="javascript:void(0)"
+      (click)="setCookie()"> Disable </a>
+    </div>
+  </mat-card>
+  <mat-card class="p-10" *ngIf="isConfiguringIrdp" fxFlexFill>
+    <div fxLayout="column" fxLayoutGap="10px">
+      <strong class="m-b-10"> Install and enable the itopia RDP Client</strong>
+      <p>
+        Cloud VDI uses the standard Microsoft Remote Desktop Protocol (RDP) and is compatible with the most RDP clients.
+      </p>
+      <p>
+        itopia provides the itopia Remote Desktop Client, which is available for Windows and MacOS and supports
+        <br>
+        single sign-on (SSO) from the Cloud VDI Portal. To use it:
+      </p>
+      <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <ol class="m-b-30">
+            <li class="m-t-10">
+              Download the itopia RDP Client installer for your platform:
+              <div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center" class="m-t-10">
+                <a mat-raised-button color="primary" type="button" class="download-btn" href="javascript:void(0)" [disabled]="isDownloading"
+                (click)="downloadIrdp(false)"> {{'Download installer' | uppercase }}
+                <br><span class="btn-sublabel">{{soName}}</span>
+              </a>
+              <a class="other-btn m-b-10" mat-button type="button" href="javascript:void(0)" [disabled]="isDownloadingOther"
+                (click)="downloadIrdp(true)"> {{ otherOSLabel }}</a>
+              </div>
+            </li>
+            <li class="m-t-10">
+              Run the installer from your <strong>Downloads</strong> directory by double-clicking the file.
+            </li>
+            <li class="m-t-10">
+              Once it's installed, click the button bellow to enable the client for this browser:
+              <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+                <a mat-button color="primary" type="button" href="javascript:void(0)" [disabled]="hasIrdp"
+                (click)="setCookie()"> {{'Enable the itopia client' | uppercase }}</a>
+              </div>
+            </li>
+          </ol>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end end">
+      <a class="other-btn" mat-button type="button" href="javascript:void(0)"
+      (click)="setConfiguringIrdp()"> {{'Close' | uppercase }} </a>
+    </div>
+  </mat-card>
+</div>
+<div fxLayout="column" fxLayoutGap="50px" fxLayoutAlign="center center" *ngIf="notSupported">
+  <mat-card fxFlexFill>
+    <div fxLayout="row" fxLayoutAlign="flex-start center">
+      <img src="assets/images/ms-rdp.svg" alt="logo-ms" class="logo-ms"/>
+      <strong class="m-r-5"> Download Microsoft Remote Desktop</strong> for your device:
+      <a mat-button color="primary" href="{{notSupportedUrl}}" target="_blank"> {{soName}} </a>
+    </div>
+  </mat-card>
+</div>

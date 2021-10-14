@@ -1,0 +1,89 @@
+<div class="help-wrapper">
+  <div fxLayout="row" fxFlexOffset="10px">
+    <div fxLayout="column" fxFlexOffset="5px" fxLayoutGap="15px" fxLayoutAlign="space-around start">
+      <span class="font-26" fxFlexOffset="20px">Need some help?</span>
+      <span class="font-22" fxFlexOffset="20px">Network troubleshooter</span>
+      <p align="justify">If you're experiencing connectivity issues or poor performance, use the network troubleshooter to test your bandwidth and latency to Google Cloud.</p>
+      <button mat-raised-button type="button" *ngIf="!isTestButtonDisabled" color="primary" (click)="startTest()"
+              [disabled]="isTestButtonDisabled || isDisabledFromOutside" fxFlexAlign="center">{{testButtonText | uppercase}}</button>
+      <div *ngIf="isTestButtonDisabled" fxLayout="row" fxFlexAlign="center" fxLayoutAlign="space-around center">
+                  <mat-spinner diameter=15></mat-spinner>
+                  <span class="action-label m-l-5"> {{ 'Testing ...'}} </span>
+      </div>
+
+      <!-- test results -->
+      <div fxLayout="column" fxLayoutGap="10px" *ngIf="!isTestFailed">
+        <div *ngFor="let region of localRegions">
+          <div fxLayout="column" fxLayoutGap="5px">
+            <div>Checking connectivity to <strong>{{region.regionName}}</strong></div>
+            <div fxLayout="row">
+              <div fxLayout="column" fxLayoutGap="5px" fxFlexOffset="10px">
+                <div fxLayout="row">
+                  Network latency ..............
+                  <div *ngIf="region.loadingLatency"><mat-spinner diameter=15></mat-spinner></div>
+                  <div *ngIf="!region.loadingLatency"><strong><span class="{{region.latencyClass}}">{{region.latencyMedian}} ms</span></strong></div>
+                </div>
+                <div fxLayout="row">
+                  Bandwidth .......................
+                  <div *ngIf="region.loadingBandwidth"><mat-spinner diameter=15></mat-spinner></div>
+                  <div *ngIf="!region.loadingBandwidth"><strong><span class="{{region.bandwidthClass}}">{{region.bandwidthAverage}} Mbps</span></strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="isTestFinished" fxFlexOffset="10px">{{"Test complete"}}</div>
+
+        <!-- emails -->
+        <div *ngIf="isTestFinished" fxLayout="row" fxFlexOffset="10px">
+          <div fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="space-around start">
+            Send this result to:
+          </div>
+        </div>
+        <div *ngIf="isTestFinished" fxLayout="row">
+          <div [formGroup]="mailForm" fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="space-around start">
+            <mat-form-field class="m-b-0" appearance="outline">
+              <mat-label>Emails</mat-label>
+              <mat-chip-list
+                class="mat-chip-list-stacked"
+                formArrayName="mails"
+                #chipList
+                aria-label="Email selection"
+                [disabled]="sendingMail">
+                <mat-chip
+                  class="justify-content-between truncate"
+                  *ngFor="let mail of mailsControls.value"
+                  [selectable]="true"
+                  [removable]="true"
+                  (removed)="remove(mail)">
+                  {{mail}}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input
+                  placeholder="New email..."
+                  [matChipInputFor]="chipList"
+                  (change)="setEmailValue($event)"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="true"
+                  (matChipInputTokenEnd)="add($event)"
+                  class="flex-0"
+                  autocomplete="off">
+              </mat-chip-list>
+              <mat-error>Email is invalid</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="space-around start" [ngClass]="{'p-10': sendingMail}">
+                <button mat-flat-button *ngIf="!sendingMail" color="primary" (click)="sendMail()"
+                        [disabled]="sendingMail || mailsControls.value.length === 0" class="margin-left-5"
+                        fxFlexAlign="right">{{ 'Send' | uppercase }}</button>
+                <div *ngIf="sendingMail" fxLayout="row" fxFlexAlign="center" fxLayoutAlign="space-around center">
+                  <mat-spinner class="spinner-pos" diameter=15></mat-spinner>
+                  <span class="action-label"> {{ 'Sending ...'}} </span>
+                </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

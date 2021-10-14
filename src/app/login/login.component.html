@@ -1,0 +1,65 @@
+<div class="page-wrapper" fxLayout="column" fxLayoutGap="50px" fxLayoutAlign="flex-start center">
+  <div fxLayout="row" fxLayoutAlign="center center" class="logo-container">
+    <span><img src="{{brandingConfigs?.loginImage ? brandingConfigs?.loginImage : 'assets/images/only_cloud.png'}}" alt="logo" class="logo"/></span>
+  </div>
+  <div fxLayout="row" fxLayoutGap="50px" fxLayoutAlign="center center">
+    <mat-card class="login-form" fxFlex="0 0 450px" [fxFlex.xs]="0">
+      <div class="title">{{brandingConfigs?.title || 'Cloud VDI Portal'}}</div>
+      <form [formGroup]="loginForm" class="px-50 py-20" [ngClass]="{'m-t-20': loginStep==2}" (ngSubmit)="submit()">
+          <mat-form-field class="login-username" hintLabel="ex. username@domain.com">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" required (keydown.enter)="getCasUser()" (change)="setValidations('username')" />
+            <mat-error *ngIf="loginForm.controls.username.touched && loginForm.controls.username.invalid">
+              <span *ngIf="loginForm.controls.username.errors.required">This field is mandatory.</span>
+              <span *ngIf="loginForm.controls.username.errors.pattern">This field is invalid.</span>
+              <span *ngIf="loginForm.controls.username.errors.serverError">{{loginForm.controls.username.errors.serverError}}</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="m-t-20" *ngIf="isMultiplePools">
+            <mat-label>Collection Pool</mat-label>
+            <mat-select formControlName="pool" required
+              (blur)="setValidations('pool')" (selectionChange)="changePool()">
+              <mat-option *ngFor="let pool of collectionPools" [value]="pool.scaleId">
+                {{pool.collectionAlias}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="loginForm.controls.pool.touched && loginForm.controls.pool.invalid">
+              <span *ngIf="loginForm.controls.pool.errors.required">This field is mandatory.</span>
+            </mat-error>
+          </mat-form-field>
+
+          <button mat-button class="m-t-20" color="primary" *ngIf="loginStep==1" type="button" [disabled]="loginForm.controls.username.touched && loginForm.invalid" (click)="getCasUser()">{{"Next" | uppercase}}</button>
+
+        <div *ngIf="loginType=='none'">
+          <button mat-raised-button class="m-t-20" color="primary" type="button" (click)="downloadRdp()">{{"Download" | uppercase}}</button>
+        </div>
+        <div *ngIf="loginStep==2 && loginType=='auth'" class="m-t-20">
+          <mat-form-field class="login-password">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" [type]="passwordHide ? 'password' : 'text'" required (blur)="setValidations('password')" (keydown.enter)="submit()">
+            <button mat-icon-button matSuffix type="button" (click)="passwordHide = !passwordHide;" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="passwordHide">
+              <mat-icon>{{passwordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+              <span *ngIf="loginForm.controls.password.errors.required">This field is mandatory.</span>
+              <span *ngIf="loginForm.controls.password.errors.serverError">{{loginForm.controls.password.errors.serverError}}</span>
+            </mat-error>
+          </mat-form-field>
+          <button mat-raised-button class="m-t-20" color="primary" type="button"
+          [disabled]="loginForm.controls.password.touched && loginForm.invalid" (click)="submit()">{{"Login" | uppercase}}</button>
+
+          <div class="m-t-20" *ngIf="hasRdWebClient" fxLayout="row" fxLayoutGap="50px" fxLayoutAlign="center center">
+            <app-rd-web-client [webClientUrl]="webClientUrl"></app-rd-web-client>
+          </div>
+
+        </div>
+      </form>
+      <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+    </mat-card>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="50px" fxLayoutAlign="center center">
+    <app-desktop-client></app-desktop-client>
+  </div>
+</div>

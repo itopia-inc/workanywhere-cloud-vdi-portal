@@ -1,0 +1,6 @@
+<mat-card *ngFor="let alert of alerts" class="{{cssClass(alert)}}">
+	<div style="text-align: right; margin-bottom:10px;">
+		<a class="close" (click)="removeAlert(alert)">&times;</a>
+	</div>
+    <span [innerHTML]="alert.message"></span>
+</mat-card>

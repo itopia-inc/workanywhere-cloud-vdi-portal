@@ -1,0 +1,23 @@
+.console {
+ margin: 0 auto 0;
+}
+.expanded-toolbar {
+  background-color: #2196f3;
+}
+::ng-deep #background {
+  background-image: none;
+  background-color: #fafafa;
+  opacity: 1;
+}
+.side-panel{
+  position: absolute;
+  top: 64px;
+  right: 0;
+  bottom: 0;
+  background-color: #e4e3e3;
+  padding-right: 10px;
+}
+.overflow-scroll-y {
+  overflow-y: auto;
+  overflow-x: hidden;
+}

@@ -1,0 +1,9 @@
+<mat-card fxFlex="0 0 450px" [fxFlex.xs]="0" *ngIf="osName !== 'windows' && osName !== 'linux'">
+  <p class="text-header">Remote Desktop Client</p>
+  <p>Cloud VDI uses the Microsoft Remote Desktop Protocol (RDP). Windows computers include a built-in RDP client. You can download the Microsoft Remote Desktop client for other platforms below.</p>
+  <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center" class="m-t-20">
+    <a mat-button color="primary" type="button" href="{{macUrl}}" target="_blank" *ngIf="isMac"> MacOS </a>
+    <a mat-button color="primary" type="button" href="{{iOsUrl}}" target="_blank" *ngIf="isiOs"> iOS/iPadOS </a>
+    <a mat-button color="primary" type="button" href="{{chromeUrl}}" target="_blank" *ngIf="isChrome"> Android/ChromeOS </a>
+  </div>
+</mat-card>
